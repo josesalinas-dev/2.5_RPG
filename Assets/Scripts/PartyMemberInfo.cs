@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// ScriptableObject that defines party member data (stats, visuals, prefabs).
+/// Used to create reusable party member templates in the asset pipeline.
+/// </summary>
 [CreateAssetMenu(menuName = "NewPartyMember")]
 public class PartyMemberInfo : ScriptableObject
 {

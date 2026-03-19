@@ -2,6 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Singleton manager that handles enemy generation, spawning, and persistence in dungeons.
+/// Saves enemy state when exiting battles and respawns defeated enemies based on encounter data.
+/// Manages enemy data persistence between scene loads.
+/// </summary>
 public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private EnemyInfo[] allEnemies;

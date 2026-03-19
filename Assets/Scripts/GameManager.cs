@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Manages game-wide functionality including pause/resume, scene loading, and application quit.
+/// Uses the new InputSystem to detect pause input and controls Time.timeScale for pause mechanics.
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     private PlayerControls playerControls;

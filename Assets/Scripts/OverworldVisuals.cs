@@ -2,6 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// Displays party member avatars and health bars in the HUD during overworld exploration.
+/// Updates visuals whenever party composition changes (member joins/leaves).
+/// </summary>
 public class OverworldVisuals : MonoBehaviour
 {
     private PartyManager partyManager;

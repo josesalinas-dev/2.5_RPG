@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Makes an NPC recruitable as a party member.
+/// Displays interaction prompts and hides itself when the character has already joined the party.
+/// </summary>
 public class JoinableCharacterScript : MonoBehaviour
 {
     public PartyMemberInfo membertoJoin;

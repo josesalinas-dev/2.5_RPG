@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
+/// <summary>
+/// Makes party members follow the player in the overworld with configurable distance.
+/// Handles sprite direction based on relative position and manages walking animation state.
+/// </summary>
 public class MemberFollowAI : MonoBehaviour
 {
     [SerializeField] private Transform followTarget;
@@ -30,11 +34,11 @@ public class MemberFollowAI : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, followTarget.position, step);
             if(followTarget.position.x - transform.position.x < 0)
             {
-                spriteRenderer.flipX = true;
+                spriteRenderer.transform.localRotation = Quaternion.Euler(0, 180f, 0);
             }
             else
             {
-                spriteRenderer.flipX = false;
+                spriteRenderer.transform.localRotation = Quaternion.Euler(0, 0f, 0);
             }
         }
         else

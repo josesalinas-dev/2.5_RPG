@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Singleton manager that handles party member data and persistence across scenes.
+/// Tracks current party composition, saves/loads character stats, and manages player position between scenes.
+/// Destroyed when returning to main menu.
+/// </summary>
 public class PartyManager : MonoBehaviour
 {
     [SerializeField] private PartyMemberInfo[] allMembers;

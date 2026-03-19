@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// ScriptableObject that defines enemy data (stats, visuals, prefabs).
+/// Used to create reusable enemy templates in the asset pipeline.
+/// </summary>
 [CreateAssetMenu(menuName = "NewEnemy")]
 public class EnemyInfo : ScriptableObject
 {

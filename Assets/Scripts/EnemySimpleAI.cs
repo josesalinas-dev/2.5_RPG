@@ -1,16 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
+/// <summary>
+/// AI behavior system for dungeon enemies with state machine.
+/// Manages idle, patrol, chase, attack, and death states. Uses NavMesh for pathfinding and waypoint patrol.
+/// Triggers battles when player enters attack range.
+/// </summary>
 public class EnemySimpleAI : MonoBehaviour
 {
-    [SerializeField] enum EnemyState { Idle, Patrolling, Chasing, Attacking, Death }
+    enum EnemyState { Idle, Patrolling, Chasing, Attacking, Death }
     [SerializeField] EnemyState currentState = EnemyState.Idle;
     [SerializeField] float idleTime = 1.7f;
     [SerializeField] float chaseRange = 7f;
     [SerializeField] float attackRange = 3f;
     [SerializeField] float patrolSpeed = 1f;
-    [SerializeField] float chaseSpeed = 3f;    
+    [SerializeField] float chaseSpeed = 3f;
 
     private Transform player;
     private Animator enemyAnimator;
@@ -159,7 +164,12 @@ public class EnemySimpleAI : MonoBehaviour
         Vector3 direction = navMeshAgent.destination - transform.position;
         if (direction.x != 0)
         {
-            enemySprite.flipX = direction.x < 0;
+            // If x > 0 (moving right), rotation is 0. 
+            // If x < 0 (moving left), rotation is 180 on the Y axis.
+            float targetYRotation = (direction.x < 0) ? 180f : 0f;
+
+            // Apply rotation to the sprite's transform
+            enemySprite.transform.localRotation = Quaternion.Euler(0, targetYRotation, 0);
         }
     }
 

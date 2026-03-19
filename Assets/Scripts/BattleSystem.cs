@@ -4,9 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Controls the turn-based battle system including turn order, action execution, and win/loss conditions.
+/// Spawns party members and enemies, manages battle UI, and handles damage/death calculations.
+/// Supports attack and run actions with a 50% escape chance.
+/// </summary>
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] private enum BattleState { Start, Selection, Battle, Won, Lost, Run }
+    private enum BattleState { Start, Selection, Battle, Won, Lost, Run }
 
     [Header("Battle State")]
     [SerializeField] private BattleState State;

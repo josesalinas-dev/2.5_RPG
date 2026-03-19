@@ -1,7 +1,10 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Controls player movement, animation, and battle transitions in the overworld.
+/// Handles input through the new InputSystem, manages sprite direction, and saves position when transitioning to battles.
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
 
@@ -29,8 +32,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        partyManager = GameObject.FindFirstObjectByType<PartyManager>();
-        if(partyManager.GetPosition() != Vector3.zero)  
+        partyManager = FindFirstObjectByType<PartyManager>();
+        if (partyManager.GetPosition() != Vector3.zero)
         {
             transform.position = partyManager.GetPosition();
         }
@@ -49,8 +52,12 @@ public class PlayerController : MonoBehaviour
 
         if (x != 0)
         {
-            bool flip = x < 0;
-            playerSprite.flipX = flip;
+            // If x > 0 (moving right), rotation is 0. 
+            // If x < 0 (moving left), rotation is 180 on the Y axis.
+            float targetYRotation = (x < 0) ? 180f : 0f;
+
+            // Apply rotation to the sprite's transform
+            playerSprite.transform.localRotation = Quaternion.Euler(0, targetYRotation, 0);
         }
     }
 

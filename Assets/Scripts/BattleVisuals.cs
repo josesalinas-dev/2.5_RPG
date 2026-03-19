@@ -1,19 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-
+/// <summary>
+/// Handles visual feedback and animations for battle characters.
+/// Manages health bars, plays attack/hit/death animations, and cleans up defeated character visuals.
+/// </summary>
 public class BattleVisuals : MonoBehaviour
 {
     [SerializeField] private Slider healthBar;
-    [SerializeField] private TextMeshProUGUI lvlText;
 
     private int currentHealth;
     private int maxHealth;
-    private int level;
     private Animator animator;
 
-    private const string LEVEL_PREV_TEXT = "Lvl: ";
     private const string IS_ATTACKING_PARAM = "isAttacking";
     private const string IS_DEATH_PARAM = "isDeath";
     private const string IS_HIT_PARAM = "isHit";
@@ -27,8 +26,6 @@ public class BattleVisuals : MonoBehaviour
     {
         this.currentHealth = currentHealth;
         this.maxHealth = maxHealth;
-        this.level = level;
-        lvlText.text = LEVEL_PREV_TEXT + this.level.ToString();
         UpdateHealthBar();
     }    
 

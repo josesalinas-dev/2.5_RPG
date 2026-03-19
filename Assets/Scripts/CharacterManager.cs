@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Manages NPC recruitment and party member visuals in the overworld.
+/// Handles interaction detection with joinable NPCs, spawns party member visuals following the player, and updates the HUD.
+/// </summary>
 public class CharacterManager : MonoBehaviour
 {
     [SerializeField] private GameObject joinPopUp;

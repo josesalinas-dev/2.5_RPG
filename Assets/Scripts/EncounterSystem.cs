@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Sets up enemy encounters in a scene based on serialized encounter data.
+/// Randomly generates enemies within specified level ranges when the scene loads.
+/// </summary>
 public class EncounterSystem : MonoBehaviour
 {
     [SerializeField] private Encounter[] enemiesInScene;
