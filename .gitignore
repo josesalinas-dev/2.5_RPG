@@ -1,0 +1,68 @@
+# ====== UNITY PORTFOLIO GITIGNORE ======
+# Keep only code on GitHub, everything else local
+# This shows your programming skills without asset bloat
+
+# ====== UNITY CACHE & BUILD FOLDERS ======
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# ====== IDE & EDITOR (LOCAL ONLY) ======
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ====== PROJECT SETTINGS & PACKAGES (LOCAL ONLY) ======
+# These are machine/environment specific, not portfolio relevant
+/Packages/
+/ProjectSettings/
+*.json
+
+# ====== BUILD OUTPUT & BINARIES ======
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+
+# ====== CRASH REPORTS ======
+sysinfo.txt
+crashlytics-build.properties
+
+# ====== ASSETS (LOCAL ONLY - PORTFOLIO MODE) ======
+# All assets except Scripts are excluded from portfolio
+/Assets/
+!/Assets/Scripts/
+!Assets/Scripts/**
+!Assets/Scripts/**/*.meta
+
+# ====== GIT & CONFIG ======
+# Keep .gitignore and .gitattributes
+# Keep README.md for documentation
+

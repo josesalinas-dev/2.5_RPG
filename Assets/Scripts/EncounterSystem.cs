@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+using System.Collections;
+using System.Collections.Generic;
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
 using UnityEngine;
 
 /// <summary>
@@ -11,9 +16,12 @@ public class EncounterSystem : MonoBehaviour
 
     private EnemyManager enemyManager;
     
+<<<<<<< HEAD
     /// <summary>
     /// Initializes the encounter system and generates random enemies based on the encounter data.
     /// </summary>
+=======
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     void Start()
     {
         enemyManager = GameObject.FindFirstObjectByType<EnemyManager>();
@@ -23,6 +31,10 @@ public class EncounterSystem : MonoBehaviour
 }
 
 [System.Serializable]
+<<<<<<< HEAD
+=======
+
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
 public class Encounter
 {
     public EnemyInfo Enemy;

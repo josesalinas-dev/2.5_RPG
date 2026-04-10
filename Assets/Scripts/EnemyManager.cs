@@ -22,6 +22,7 @@ public class EnemyManager : MonoBehaviour
     public bool hasWonBattle;
 
     private const float LEVEL_MODIFIER = 0.5f;
+<<<<<<< HEAD
     private const int MAX_NUM_ENEMIES_TO_SPAWN = 1;
 
     private void Awake()
@@ -30,6 +31,12 @@ public class EnemyManager : MonoBehaviour
         /// Ensures only one instance of EnemyManager exists using the singleton pattern.
         /// Makes this object persistent across scene loads and registers for scene load events.
         /// </summary>
+=======
+    private const int MAX_NUM_ENEMIES_TO_SPAWN = 7;
+
+    private void Awake()
+    {
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
         // Ensure only one instance of this script exists
         if (instance != null)
         {
@@ -44,12 +51,15 @@ public class EnemyManager : MonoBehaviour
 
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Handles scene load events and spawns or respawns enemies based on the loaded scene.
     /// Destroys the manager if the main menu is loaded.
     /// </summary>
     /// <param name="scene">The scene that was loaded.</param>
     /// <param name="mode">The scene load mode (single or additive).</param>
+=======
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {// Destruir el objeto si se carga el menú principal o la escena final
         if (scene.name == "MainMenu")
@@ -74,17 +84,24 @@ public class EnemyManager : MonoBehaviour
 
     }
     
+<<<<<<< HEAD
     /// <summary>
     /// Unregisters the scene load event when this manager is destroyed.
     /// </summary>
+=======
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;  // Eliminar el evento cuando se destruya el objeto
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Finds all spawn points tagged "SpawnPoint" in the current scene and caches their transforms.
     /// </summary>
+=======
+
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void FindSpawnPoints()
     {
         dgSpawnPoints.Clear();
@@ -95,12 +112,15 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Generates random enemies based on the provided encounter data.
     /// Randomly selects from the available encounters and creates enemies within the specified level range.
     /// </summary>
     /// <param name="encounters">Array of encounter configurations with enemy types and level ranges.</param>
     /// <param name="maxNumEnemies">The maximum number of enemies to generate.</param>
+=======
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void GenerateEnemybyEncounter(Encounter[] encounters, int maxNumEnemies)
     {
         currentEnemies.Clear();
@@ -113,6 +133,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Spawns random enemies in the dungeon at designated spawn points.
     /// Only spawns one enemy per encounter.
@@ -120,6 +141,11 @@ public class EnemyManager : MonoBehaviour
     private void SpawnEnemies()
     {
         int numEnemiesToSpawn = Random.Range(1, MAX_NUM_ENEMIES_TO_SPAWN + 1);
+=======
+    private void SpawnEnemies()
+    {
+        int numEnemiesToSpawn = Random.Range(3, MAX_NUM_ENEMIES_TO_SPAWN + 1);
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
         for (int i = 0; i < numEnemiesToSpawn; i++)
         {
             Vector3 spawnPosition = dgSpawnPoints[Random.Range(0, dgSpawnPoints.Count)].position;
@@ -129,10 +155,13 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Respawns previously saved enemies at their original positions after a battle.
     /// Removes defeated enemies if the player won the battle.
     /// </summary>
+=======
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void RespawnEnemies()
     {
         if (hasWonBattle && dgEnemyAttacker != null)
@@ -161,11 +190,15 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Saves the current state of all dungeon enemies before transitioning to a battle.
     /// Records their positions, rotations, and prefab indices for respawning later.
     /// </summary>
     /// <param name="enemyAttackerTransform">The transform of the enemy that initiated the battle.</param>
+=======
+
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void SaveDGEnemiesData(Transform enemyAttackerTransform)
     {
         savedDGEnemiesData.Clear();
@@ -178,12 +211,16 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Generates an enemy instance by name and level, calculating stats based on the level modifier.
     /// Adds the generated enemy to the current enemy list.
     /// </summary>
     /// <param name="enemyName">The name of the enemy type to generate.</param>
     /// <param name="level">The level of the enemy to generate.</param>
+=======
+
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void GenerateEnemybyName(string enemyName, int level)
     {
         for (int i = 0; i < allEnemies.Length; i++)
@@ -206,10 +243,13 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     /// <summary>
     /// Returns the list of currently active enemies in battle.
     /// </summary>
     /// <returns>The list of current enemies.</returns>
+=======
+>>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public List<Enemy> GetCurrentEnemies()
     {
         return currentEnemies;
