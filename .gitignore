@@ -56,12 +56,22 @@ ExportedObj/
 sysinfo.txt
 crashlytics-build.properties
 
-# ====== ASSETS (LOCAL ONLY - PORTFOLIO MODE) ======
-# All assets except Scripts are excluded from portfolio
-/Assets/
+# ====== ASSETS (PORTFOLIO MODE) ======
+
+# Ignorar todo el contenido de Assets
+/Assets/*
+
+# Permitir la carpeta Scripts
 !/Assets/Scripts/
+
+# Permitir todo dentro de Scripts
 !/Assets/Scripts/**
+
+# Solo trackear archivos C#
+/Assets/Scripts/**
 !/Assets/Scripts/**/*.cs
+
+# Ignorar meta files incluso en Scripts
 /Assets/Scripts/**/*.meta
 
 # ====== GIT & CONFIG ======
