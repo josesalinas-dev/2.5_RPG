@@ -19,29 +19,22 @@ public class PlayerController : MonoBehaviour
 
     private const string IS_WALKING = "isWalking";
 
-<<<<<<< HEAD
     /// <summary>
     /// Initializes the player controls input system on awake.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void Awake()
     {
         playerControls = new PlayerControls();
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Enables the player input controls when the script is enabled.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void OnEnable()
     {
         playerControls.Enable();
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Disables the player input controls when the script is disabled.
     /// </summary>
@@ -54,8 +47,6 @@ public class PlayerController : MonoBehaviour
     /// Initializes the player's rigidbody and restores the saved position from the PartyManager.
     /// Called at the start of the scene.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -66,14 +57,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Reads input from the player and updates movement direction and animation state.
     /// Handles sprite direction flipping based on horizontal input.
     /// Called once per frame.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void Update()
     {
         float x = playerControls.Player.Move.ReadValue<Vector2>().x;
@@ -96,39 +84,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Handles the player being hit by an enemy in the dungeon.
     /// Saves the player's position and transitions to the battle scene.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void ProcessHit()
     {
         partyManager.SetPosition(transform.position);
         SceneManager.LoadScene("BattleScene");
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Applies the calculated movement velocity to the rigidbody during the physics update phase.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void FixedUpdate()
     {
         rb.MovePosition(transform.position + movement * speed * Time.fixedDeltaTime);
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Sets the animator and sprite renderer components for the player's visual representation.
     /// Called by CharacterManager when spawning party member visuals.
     /// </summary>
     /// <param name="animator">The animator component to use for animations.</param>
     /// <param name="spriteRenderer">The sprite renderer component to use for sprite rendering.</param>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void SetOverworldVisuals(Animator animator, SpriteRenderer spriteRenderer)
     {
         playerAnim = animator;

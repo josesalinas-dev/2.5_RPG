@@ -31,24 +31,15 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] private GameObject enemySelectionMenu;
     [SerializeField] private GameObject[] enemySelectionButtons;
     [SerializeField] private TextMeshProUGUI actionText;
-<<<<<<< HEAD
     [SerializeField] private GameObject battleInfoPanel;
     [SerializeField] private TextMeshProUGUI battleInfoText;
-=======
-    [SerializeField] private GameObject bottomBattleInfo;
-    [SerializeField] private TextMeshProUGUI bottomText;
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
 
     private PartyManager partyManager;
     private EnemyManager enemyManager;
     private int currentPartyHero;
 
     private const string ACTION_MESSAGE = "'s Action: ";
-<<<<<<< HEAD
     private const string WIN_MESSAGE = "Your Party Won The Battle!!!";
-=======
-    private const string WIN_MESSAGE = "YOUR PARTY WON THE BATTLE!!!";
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private const string LOST_MESSAGE = "YOUR PARTY HAS BEEN DEFEATED!!!";
     private const string SUCCESSFULLY_RAN_AWAY_MESSAGE = "YOU HAVE RUN AWAY";
     private const string FAIL_RAN_AWAY_MESSAGE = "PARTY FAIL TO RUN";
@@ -67,13 +58,10 @@ public class BattleSystem : MonoBehaviour
         DetermineBattleOrder();
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Creates BattleEntity instances for all alive party members and instantiates their visual representations.
     /// Initializes health bars and adds them to the party battlers list.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void CreatePartyEntities()
     {
         List<PartyMember> currentParty = new List<PartyMember>();
@@ -93,23 +81,16 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Main battle coroutine that executes all battlers' actions in turn order.
     /// Processes attacks or run actions, removes defeated battlers, and checks for win/loss conditions.
     /// Repeats until the battle state changes or one side is defeated.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private IEnumerator BattleRoutine()
     {
         enemySelectionMenu.SetActive(false);
         State = BattleState.Battle;
-<<<<<<< HEAD
         battleInfoPanel.SetActive(true);
-=======
-        bottomBattleInfo.SetActive(true);
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
         enemyManager.hasWonBattle = false;
 
         for (int i = 0; i < allBattlers.Count; i++)
@@ -136,11 +117,7 @@ public class BattleSystem : MonoBehaviour
 
         if (State == BattleState.Battle)
         {
-<<<<<<< HEAD
             battleInfoPanel.SetActive(false);
-=======
-            bottomBattleInfo.SetActive(false);
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
             currentPartyHero = 0;
             ShowBattleMenu();
         }
@@ -148,7 +125,6 @@ public class BattleSystem : MonoBehaviour
         yield return null;
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Handles the attack action for both player and enemy combatants.
     /// For player attacks: targets are already set by SelectEnemy().
@@ -156,8 +132,6 @@ public class BattleSystem : MonoBehaviour
     /// Applies damage, updates UI, and checks for defeated targets.
     /// </summary>
     /// <param name="i">The index of the attacker in the allBattlers list.</param>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private IEnumerator AttackRoutine(int i)
     {
         if (allBattlers[i].IsPlayer)
@@ -174,22 +148,14 @@ public class BattleSystem : MonoBehaviour
 
             if (currTarget.CurrentHealth <= 0)
             {
-<<<<<<< HEAD
                 battleInfoText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name);
-=======
-                bottomText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name);
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
                 yield return new WaitForSeconds(TURN_DURATION);
                 enemyBattlers.Remove(currTarget);
                 if (enemyBattlers.Count <= 0)
                 {
                     State = BattleState.Won;
                     enemyManager.hasWonBattle = true;
-<<<<<<< HEAD
                     battleInfoText.text = WIN_MESSAGE;
-=======
-                    bottomText.text = WIN_MESSAGE;
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
                     SceneManager.LoadScene(SCENE_NAME);
                 }
             }
@@ -203,21 +169,13 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(TURN_DURATION);
             if (currTarget.CurrentHealth <= 0)
             {
-<<<<<<< HEAD
                 battleInfoText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name);
-=======
-                bottomText.text = string.Format("{0} defeated {1}", currAttacker.Name, currTarget.Name);
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
                 yield return new WaitForSeconds(TURN_DURATION);
                 playerBattlers.Remove(currTarget);
                 if (playerBattlers.Count <= 0)
                 {
                     State = BattleState.Lost;
-<<<<<<< HEAD
                     battleInfoText.text = LOST_MESSAGE;
-=======
-                    bottomText.text = LOST_MESSAGE;
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
                     yield return new WaitForSeconds(TURN_DURATION);
                     GameOver();
                 }
@@ -225,7 +183,6 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Displays the game over screen when the party has been defeated.
     /// </summary>
@@ -240,14 +197,6 @@ public class BattleSystem : MonoBehaviour
     /// Gives the party a 50% chance to escape. If successful, returns to the dungeon scene.
     /// If unsuccessful, the party loses their turn but can try again next round.
     /// </summary>
-=======
-    private void GameOver()
-    {        
-        bottomBattleInfo.SetActive(false);
-        GameOverPanel.SetActive(true);
-    }
-
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private IEnumerator RunRoutine()
     {
         if (State == BattleState.Battle)
@@ -255,11 +204,7 @@ public class BattleSystem : MonoBehaviour
             if (Random.Range(1, 101) >= RUN_CHANCE)
             {
                 partyManager.SetPosition(partyManager.playerStartPosition);
-<<<<<<< HEAD
                 battleInfoText.text = SUCCESSFULLY_RAN_AWAY_MESSAGE;
-=======
-                bottomText.text = SUCCESSFULLY_RAN_AWAY_MESSAGE;
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
                 State = BattleState.Run;
                 allBattlers.Clear();
                 yield return new WaitForSeconds(TURN_DURATION);
@@ -269,23 +214,16 @@ public class BattleSystem : MonoBehaviour
             }
             else
             {
-<<<<<<< HEAD
                 battleInfoText.text = FAIL_RAN_AWAY_MESSAGE;
-=======
-                bottomText.text = FAIL_RAN_AWAY_MESSAGE;
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
                 yield return new WaitForSeconds(TURN_DURATION);
             }
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Removes all defeated battlers (health <= 0) from the main battlers list.
     /// Prevents defeated entities from acting and being targeted later in the battle.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void RemoveDeadBattlers()
     {
         for (int i = 0; i < allBattlers.Count; i++)
@@ -297,13 +235,10 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Creates BattleEntity instances for all enemies in the current encounter.
     /// Instantiates their visual representations and initializes them for battle.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void CreateEnemyEntities()
     {
         List<Enemy> currentEnemies = new List<Enemy>();
@@ -323,26 +258,20 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Displays the action selection menu for the current party member's turn.
     /// Updates the action text to show whose turn it is.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void ShowBattleMenu()
     {
         actionText.text = playerBattlers[currentPartyHero].Name + ACTION_MESSAGE;
         battleMenu.SetActive(true);
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Shows the enemy selection menu allowing the player to choose an attack target.
     /// Displays buttons for each alive enemy.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void ShowEnemySelectionMenu()
     {
         battleMenu.SetActive(false);
@@ -350,14 +279,11 @@ public class BattleSystem : MonoBehaviour
         enemySelectionMenu.SetActive(true);
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Configures the enemy selection button display.
     /// Activates buttons for each alive enemy and updates their labels with enemy names.
     /// Deactivates unused buttons.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void SetEnemySelectionButtons()
     {
         for (int i = 0; i < enemySelectionButtons.Length; i++)
@@ -372,14 +298,11 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Processes a player's selection of an enemy target.
     /// Sets the attack target and action, then advances to the next party member or starts the battle routine.
     /// </summary>
     /// <param name="currentEnemy">The index of the selected enemy in the enemyBattlers list.</param>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void SelectEnemy(int currentEnemy)
     {
         BattleEntities currentPlayerEntity = playerBattlers[currentPartyHero];
@@ -398,15 +321,12 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Executes a single attack action between two combatants.
     /// Calculates damage, plays animations, updates health, and logs the combat message.
     /// </summary>
     /// <param name="currAttacker">The BattleEntity performing the attack.</param>
     /// <param name="currTarget">The BattleEntity receiving the attack.</param>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void AttackAction(BattleEntities currAttacker, BattleEntities currTarget)
     {
         int damage = currAttacker.Strength;// to do: getDamage()  function to increase damage according to lvl, stats or items
@@ -414,7 +334,6 @@ public class BattleSystem : MonoBehaviour
         currTarget.CurrentHealth -= damage;
         currTarget.BattleVisuals.PlayHitAnimation();
         currTarget.UpdateUI();
-<<<<<<< HEAD
         battleInfoText.text = string.Format("{0} Attacks {1} for {2} damage", currAttacker.Name, currTarget.Name, damage);
         SaveHealth();
     }
@@ -424,12 +343,6 @@ public class BattleSystem : MonoBehaviour
     /// Used by enemies to randomly select attack targets.
     /// </summary>
     /// <returns>The index of a random alive party member.</returns>
-=======
-        bottomText.text = string.Format("{0} Attacks {1} for {2} damage", currAttacker.Name, currTarget.Name, damage);
-        SaveHealth();
-    }
-
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private int GetRandomPartyMember()
     {
         List<int> partyMembers = new List<int>();
@@ -444,14 +357,11 @@ public class BattleSystem : MonoBehaviour
         return partyMembers[Random.Range(0, partyMembers.Count)];
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Finds a random living enemy from the allBattlers list.
     /// Used by players to select attack targets when not explicitly chosen.
     /// </summary>
     /// <returns>The index of a random alive enemy.</returns>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private int GetRandomEnemy()
     {
         List<int> enemyMembers = new List<int>();
@@ -466,12 +376,9 @@ public class BattleSystem : MonoBehaviour
         return enemyMembers[Random.Range(0, enemyMembers.Count)];
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Saves the current health of all party members to the PartyManager for persistence across scenes.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void SaveHealth()
     {
         for (int i = 0; i < playerBattlers.Count; i++)
@@ -480,25 +387,19 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Sorts all battlers by their initiative stat (highest first) to determine turn order.
     /// Entities with higher initiative act earlier in each battle round.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void DetermineBattleOrder()
     {
         allBattlers.Sort((bi1, bi2) => -bi1.Initiative.CompareTo(bi2.Initiative));
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Processes a player's selection to run from the battle.
     /// Sets the run action and advances to the next hero or starts the battle routine.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void SelectRunAction()
     {
         State = BattleState.Selection;
@@ -522,7 +423,6 @@ public class BattleSystem : MonoBehaviour
 
 }
 
-<<<<<<< HEAD
 /// <summary>
 /// Internal data class for BattleEntities representing targets and actions during combat.
 /// </summary>
@@ -534,12 +434,6 @@ public class BattleEntities
     /// </summary>
     public enum Action { Attack, Run }
     
-=======
-[System.Serializable]
-public class BattleEntities
-{
-    public enum Action { Attack, Run }
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public Action BattleAction;
 
     public string Name;
@@ -552,7 +446,6 @@ public class BattleEntities
     public BattleVisuals BattleVisuals;
     public int Target;
 
-<<<<<<< HEAD
     /// <summary>
     /// Initializes all stats for a battle entity from party member or enemy data.
     /// </summary>
@@ -563,8 +456,6 @@ public class BattleEntities
     /// <param name="initiative">The turn order priority of the entity.</param>
     /// <param name="level">The level of the entity.</param>
     /// <param name="isPlayer">Whether this entity belongs to the player's party.</param>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void SetEntityValues(string name, int currentHealth, int maxHealth, int strength, int initiative, int level, bool isPlayer)
     {
         Name = name;
@@ -576,24 +467,18 @@ public class BattleEntities
         Level = level;
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Sets the target index for this entity's next action in the allBattlers list.
     /// </summary>
     /// <param name="target">The index of the target entity in the allBattlers list.</param>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void SetTarget(int target)
     {
         Target = target;
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Updates the visual health bar for this entity after damage is taken or health changes.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void UpdateUI()
     {
         BattleVisuals.ChangeHealth(CurrentHealth);

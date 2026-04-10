@@ -12,7 +12,6 @@ public class EnemySimpleAI : MonoBehaviour
     enum EnemyState { Idle, Patrolling, Chasing, Attacking, Death }
     [SerializeField] EnemyState currentState = EnemyState.Idle;
     [SerializeField] float idleTime = 1.7f;
-<<<<<<< HEAD
     [SerializeField] float chaseRange = 11f;
     [SerializeField] float attackRange = 7f;
     [SerializeField] float patrolSpeed = 1f;
@@ -29,31 +28,10 @@ public class EnemySimpleAI : MonoBehaviour
     public int prefabIndex; // Índice del prefab en la lista de prefabs
     private float timer = 0f;
     [SerializeField] private bool isAttacking = false;
-=======
-    [SerializeField] float chaseRange = 7f;
-    [SerializeField] float attackRange = 3f;
-    [SerializeField] float patrolSpeed = 1f;
-    [SerializeField] float chaseSpeed = 3f;
-
-    private Transform player;
-    private Animator enemyAnimator;
-    private List<Transform> waypoints = new List<Transform>();
-    private Transform currentWaypoint;
-    private EnemyManager enemyManager;
-
-    private SpriteRenderer enemySprite;
-    private NavMeshAgent navMeshAgent;
-
-    public int prefabIndex; // Índice del prefab en la lista de prefabs
-    private float timer = 0f;
-
-    private const string BATTLE_SCENE = "BattleScene";
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-<<<<<<< HEAD
         enemyManager = GameObject.FindFirstObjectByType<EnemyManager>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
@@ -65,17 +43,10 @@ public class EnemySimpleAI : MonoBehaviour
         {
             enemyAnimator = GetComponentInChildren<Animator>();
         }
-=======
-        enemySprite = GetComponent<SpriteRenderer>();
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        enemyAnimator = GetComponent<Animator>();
-        enemyManager = GameObject.FindFirstObjectByType<EnemyManager>();
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
         FindWaypoints();
         SetNextWaypoint();
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Main update loop that runs the state machine and updates animation parameters.
     /// The enemy cycles through Idle, Patrolling, Chasing, Attacking, and Death states.
@@ -83,11 +54,6 @@ public class EnemySimpleAI : MonoBehaviour
     void Update()
     {
         enemyAnimator.SetFloat("speed", navMeshAgent.velocity.magnitude);
-=======
-    void Update()
-    {
-        enemyAnimator.SetFloat("speed", navMeshAgent.speed);
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
         switch (currentState)
         {
             case EnemyState.Idle:
@@ -108,13 +74,10 @@ public class EnemySimpleAI : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Idle state: The enemy waits stationary for a duration before resuming patrol.
     /// Checks if the player comes into detection range.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void Idle()
     {
         navMeshAgent.speed = 0;
@@ -128,13 +91,10 @@ public class EnemySimpleAI : MonoBehaviour
         CheckForPlayer();
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Patrol state: The enemy moves toward its waypoint at patrol speed.
     /// Returns to idle when reaching the waypoint. Checks for player proximity to switch to chase state.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void Patrol()
     {
         navMeshAgent.speed = patrolSpeed;
@@ -146,13 +106,10 @@ public class EnemySimpleAI : MonoBehaviour
         FlipCharacter();
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Chase state: The enemy moves toward the player at chase speed.
     /// Transitions to Attack if the player is within attack range, or back to Idle if the player escapes.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void Chase()
     {
         navMeshAgent.speed = chaseSpeed;
@@ -171,7 +128,6 @@ public class EnemySimpleAI : MonoBehaviour
         FlipCharacter();
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Attack state: The enemy performs an attack animation on the player.
     /// Prevents repeated attacks by using the isAttacking flag. Stops NavMesh movement during the attack.
@@ -221,39 +177,14 @@ public class EnemySimpleAI : MonoBehaviour
     /// This method is called via an animation event at the end of the attack animation.
     /// </summary>
     public void HitPlayer()
-=======
-    private void Attack()
-    {
-        enemyAnimator.SetTrigger("attack");
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer > attackRange)
-        {
-            currentState = EnemyState.Chasing;
-        }
-    }
-
-    private void Die()
-    {
-        navMeshAgent.isStopped = true;
-        enemyAnimator.SetTrigger("isDying");
-        Destroy(gameObject, 1.7f);
-    }
-
-
-    // This method will be called at the end of the attack animation via an animation event
-    private void HitPlayer()
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     {
         player.GetComponent<PlayerController>().ProcessHit();
         enemyManager.SaveDGEnemiesData(transform);
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Checks if the player is within chase range and transitions to chase state if so.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void CheckForPlayer()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -263,12 +194,9 @@ public class EnemySimpleAI : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Finds all waypoints tagged "Waypoint" in the scene and caches their transforms for patrolling.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void FindWaypoints()
     {
         waypoints.Clear();
@@ -279,13 +207,10 @@ public class EnemySimpleAI : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Selects a random waypoint from the list and sets it as the enemy's destination.
     /// Uses NavMesh pathfinding to navigate to the waypoint.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void SetNextWaypoint()
     {
         if (waypoints.Count == 0) return;
@@ -294,13 +219,10 @@ public class EnemySimpleAI : MonoBehaviour
         navMeshAgent.SetDestination(currentWaypoint.position);
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Flips the character sprite horizontally based on movement direction.
     /// The sprite faces left (180°) when moving left, and right (0°) when moving right.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     private void FlipCharacter()
     {
         Vector3 direction = navMeshAgent.destination - transform.position;
@@ -315,19 +237,12 @@ public class EnemySimpleAI : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     /// <summary>
     /// Forces the enemy into the Death state.
     /// Used when the player defeats the enemy in battle and the enemy needs to be removed from the dungeon.
     /// </summary>
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
     public void TriggerDeath()
     {
         currentState = EnemyState.Death;
     }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> c3bb495faa8b085aaa317109203126d7e8cbce20
