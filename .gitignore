@@ -60,7 +60,9 @@ crashlytics-build.properties
 # All assets except Scripts are excluded from portfolio
 /Assets/
 !/Assets/Scripts/
-!Assets/Scripts/**
+!Assets/Scripts/**/
+!Assets/Scripts/**/*.cs
+/Assets/Scripts/**/*.meta
 
 # ====== GIT & CONFIG ======
 # Keep .gitignore and .gitattributes
