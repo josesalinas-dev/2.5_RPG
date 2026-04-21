@@ -16,7 +16,6 @@ public class WinManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-
             SceneManager.LoadScene("WinScene");
         }
     }

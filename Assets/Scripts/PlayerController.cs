@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     /// Disables the player input controls when the script is disabled.
     /// </summary>
     void OnDisable()
-    {        
+    {
         playerControls.Disable();
     }
 
@@ -73,15 +73,20 @@ public class PlayerController : MonoBehaviour
 
         playerAnim.SetBool(IS_WALKING, movement != Vector3.zero);
 
-        if (x != 0)
-        {
-            // If x > 0 (moving right), rotation is 0. 
-            // If x < 0 (moving left), rotation is 180 on the Y axis.
-            float targetYRotation = (x < 0) ? 180f : 0f;
+        HandleFlip(x);
+    }
 
-            // Apply rotation to the sprite's transform
-            playerSprite.transform.localRotation = Quaternion.Euler(0, targetYRotation, 0);
-        }
+    /// <summary>
+    /// Flips the character using scale instead of rotation.
+    /// Avoids lighting artifacts caused by inverted normals.
+    /// </summary>
+    private void HandleFlip(float xInput)
+    {
+        if (xInput == 0) return;
+
+        Vector3 scale = playerSprite.transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * (xInput < 0 ? -1 : 1);
+        playerSprite.transform.localScale = scale;
     }
 
     /// <summary>

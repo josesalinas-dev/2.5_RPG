@@ -16,6 +16,7 @@ public class BattleVisuals : MonoBehaviour
     private const string IS_ATTACKING_PARAM = "isAttacking";
     private const string IS_DEATH_PARAM = "isDeath";
     private const string IS_HIT_PARAM = "isHit";
+    
     /// <summary>
     /// Initializes the animator component reference on awake.
     /// </summary>

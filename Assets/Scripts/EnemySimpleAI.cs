@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,14 +14,12 @@ public class EnemySimpleAI : MonoBehaviour
     [SerializeField] float chaseRange = 11f;
     [SerializeField] float attackRange = 7f;
     [SerializeField] float patrolSpeed = 1f;
+    [SerializeField] float patrolRadius = 10f;
     [SerializeField] float chaseSpeed = 3f;
-
     [SerializeField] private SpriteRenderer enemySprite;
     [SerializeField] private Animator enemyAnimator;
 
     private Transform player;
-    private Transform currentWaypoint;
-    private List<Transform> waypoints = new List<Transform>();
     private EnemyManager enemyManager;
     private NavMeshAgent navMeshAgent;
     public int prefabIndex; // Índice del prefab en la lista de prefabs
@@ -43,7 +40,6 @@ public class EnemySimpleAI : MonoBehaviour
         {
             enemyAnimator = GetComponentInChildren<Animator>();
         }
-        FindWaypoints();
         SetNextWaypoint();
     }
 
@@ -195,16 +191,25 @@ public class EnemySimpleAI : MonoBehaviour
     }
 
     /// <summary>
-    /// Finds all waypoints tagged "Waypoint" in the scene and caches their transforms for patrolling.
+    /// Generates a random valid position on the NavMesh within a radius.
+    /// This avoids dependency on scene objects and improves scalability.
     /// </summary>
-    private void FindWaypoints()
+    private Vector3 GetRandomNavMeshPoint()
     {
-        waypoints.Clear();
-        GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag("Waypoint");
-        foreach (GameObject waypoint in waypointObjects)
+        for (int i = 0; i < 10; i++) // Try multiple times to find a valid point
         {
-            waypoints.Add(waypoint.transform);
+            Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+            randomDirection += transform.position;
+
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, NavMesh.AllAreas))
+            {
+                return hit.position;
+            }
         }
+
+        // Fallback: stay in current position if no valid point found
+        return transform.position;
     }
 
     /// <summary>
@@ -213,10 +218,8 @@ public class EnemySimpleAI : MonoBehaviour
     /// </summary>
     private void SetNextWaypoint()
     {
-        if (waypoints.Count == 0) return;
-
-        currentWaypoint = waypoints[Random.Range(0, waypoints.Count)];
-        navMeshAgent.SetDestination(currentWaypoint.position);
+        Vector3 nextPoint = GetRandomNavMeshPoint();
+        navMeshAgent.SetDestination(nextPoint);
     }
 
     /// <summary>
@@ -228,12 +231,9 @@ public class EnemySimpleAI : MonoBehaviour
         Vector3 direction = navMeshAgent.destination - transform.position;
         if (direction.x != 0)
         {
-            // If x > 0 (moving right), rotation is 0. 
-            // If x < 0 (moving left), rotation is 180 on the Y axis.
-            float targetYRotation = (direction.x < 0) ? 180f : 0f;
-
-            // Apply rotation to the sprite's transform
-            enemySprite.transform.localRotation = Quaternion.Euler(0, targetYRotation, 0);
+            Vector3 localScale = enemySprite.transform.localScale;
+            localScale.x = Mathf.Abs(localScale.x) * (direction.x < 0 ? -1 : 1);
+            enemySprite.transform.localScale = localScale;
         }
     }
 

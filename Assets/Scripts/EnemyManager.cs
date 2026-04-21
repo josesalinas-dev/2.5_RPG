@@ -13,24 +13,23 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private List<Enemy> currentEnemies;
     [SerializeField] private EnemyInfo defaultEnemy;
     [SerializeField] private List<GameObject> enemyDGPrefabs = new List<GameObject>();
-    private List<Transform> dgSpawnPoints = new List<Transform>();
+    [SerializeField] private List<Transform> dgSpawnPoints = new List<Transform>();
     [SerializeField] private List<EnemyData> savedDGEnemiesData = new List<EnemyData>();
+    [SerializeField] private Vector3 dgEnemyAttacker;
 
 
     private static EnemyManager instance;
-    [SerializeField] private Vector3 dgEnemyAttacker;
     public bool hasWonBattle;
 
-    private const float LEVEL_MODIFIER = 0.5f;
-    private const int MAX_NUM_ENEMIES_TO_SPAWN = 1;
+    private const float LEVEL_MODIFIER = 0.25f;
+    private const int MAX_NUM_ENEMIES_TO_SPAWN = 5;
 
+    /// <summary>
+    /// Ensures only one instance of EnemyManager exists using the singleton pattern.
+    /// Makes this object persistent across scene loads and registers for scene load events.
+    /// </summary>
     private void Awake()
     {
-        /// <summary>
-        /// Ensures only one instance of EnemyManager exists using the singleton pattern.
-        /// Makes this object persistent across scene loads and registers for scene load events.
-        /// </summary>
-        // Ensure only one instance of this script exists
         if (instance != null)
         {
             Destroy(this.gameObject);
@@ -51,7 +50,7 @@ public class EnemyManager : MonoBehaviour
     /// <param name="scene">The scene that was loaded.</param>
     /// <param name="mode">The scene load mode (single or additive).</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {// Destruir el objeto si se carga el menú principal o la escena final
+    {
         if (scene.name == "MainMenu")
         {
             Destroy(gameObject);  // Destruye este objeto si es la escena deseada
@@ -71,9 +70,8 @@ public class EnemyManager : MonoBehaviour
                 RespawnEnemies();
             }
         }
-
     }
-    
+
     /// <summary>
     /// Unregisters the scene load event when this manager is destroyed.
     /// </summary>
@@ -88,10 +86,13 @@ public class EnemyManager : MonoBehaviour
     private void FindSpawnPoints()
     {
         dgSpawnPoints.Clear();
-        GameObject[] spawnPointObjects = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        foreach (GameObject spawnPointObject in spawnPointObjects)
+        if (dgSpawnPoints.Count == 0)
         {
-            dgSpawnPoints.Add(spawnPointObject.transform);
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            foreach (GameObject spawnPoint in spawnPoints)
+            {
+                dgSpawnPoints.Add(spawnPoint.transform);
+            }
         }
     }
 
@@ -119,7 +120,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     private void SpawnEnemies()
     {
-        int numEnemiesToSpawn = Random.Range(1, MAX_NUM_ENEMIES_TO_SPAWN + 1);
+        int numEnemiesToSpawn = Random.Range(3, MAX_NUM_ENEMIES_TO_SPAWN + 1);
         for (int i = 0; i < numEnemiesToSpawn; i++)
         {
             Vector3 spawnPosition = dgSpawnPoints[Random.Range(0, dgSpawnPoints.Count)].position;

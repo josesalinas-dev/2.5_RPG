@@ -9,12 +9,11 @@ using TMPro;
 public class OverworldVisuals : MonoBehaviour
 {
     [SerializeField] private PartyManager partyManager;
-    [SerializeField] private GameObject[] heroPanelHUD; // Array de paneles para cada miembro del party    
-    [SerializeField] private Image[] heroPortraits; // Array de imágenes para los retratos de los miembros del party
+    [SerializeField] private GameObject[] heroPanelHUD;  
+    [SerializeField] private Image[] heroPortraits;
     [SerializeField] private TextMeshProUGUI[] heroNames;
     [SerializeField] private TextMeshProUGUI[] heroLevels;
     [SerializeField] private Slider[] herohealthBars;
-
 
     /// <summary>
     /// Initializes the OverworldVisuals by finding the PartyManager and updating the HUD display.
@@ -33,16 +32,7 @@ public class OverworldVisuals : MonoBehaviour
     /// </summary>
     public void UpdateOverworldVisuals()
     {
-        // if (partyManager == null)
-        // {
-        //     partyManager = GameObject.FindFirstObjectByType<PartyManager>();
-        // }
-        // if (partyManager == null || partyManager.GetCurrentParty() == null)
-        // {
-        //     return;
-        // }
         int partyCount = partyManager.GetCurrentParty().Count;
-        // Activa/desactiva paneles según el número de miembros en el partido
         for (int i = 0; i < heroPanelHUD.Length; i++)
         {
             if (i < partyCount)
@@ -53,25 +43,21 @@ public class OverworldVisuals : MonoBehaviour
                 }
                 var partyMember = partyManager.GetCurrentParty()[i];
 
-                // Actualiza la imagen del avatar
                 if (heroPortraits[i] != null)
                 {
                     heroPortraits[i].sprite = partyMember.sprite;
                 }
-
-                // Actualiza el nombre del personaje                
+                              
                 if (heroNames[i] != null)
                 {
                     heroNames[i].text = partyMember.memberName;
                 }
-
-                // Actualiza el nivel del personaje
+                
                 if (heroLevels[i] != null)
                 {
                     heroLevels[i].text = partyMember.level.ToString();
                 }
-
-                // Actualiza la barra de vida
+                
                 if (herohealthBars[i] != null)
                 {
                     herohealthBars[i].maxValue = partyMember.maxHealth;
@@ -79,8 +65,7 @@ public class OverworldVisuals : MonoBehaviour
                 }
             }
             else
-            {
-                // Desactiva paneles que no tienen miembro
+            {                
                 if (heroPanelHUD[i] != null)
                 {
                     heroPanelHUD[i].SetActive(false);

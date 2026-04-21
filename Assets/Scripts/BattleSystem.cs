@@ -36,6 +36,7 @@ public class BattleSystem : MonoBehaviour
 
     private PartyManager partyManager;
     private EnemyManager enemyManager;
+
     private int currentPartyHero;
 
     private const string ACTION_MESSAGE = "'s Action: ";
@@ -418,9 +419,7 @@ public class BattleSystem : MonoBehaviour
             enemySelectionMenu.SetActive(false);
             ShowBattleMenu();
         }
-
     }
-
 }
 
 /// <summary>

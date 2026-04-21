@@ -12,11 +12,10 @@ public class PartyManager : MonoBehaviour
     [SerializeField] private PartyMemberInfo[] allMembers;
     [SerializeField] private List<PartyMember> currentParty;
     [SerializeField] private PartyMemberInfo defaultPartyMember;
-
-    private Vector3 playerPosition;
     [SerializeField] public Vector3 playerStartPosition = new Vector3(0f, 0f, 0f);
 
     private static PartyManager instance;
+    private Vector3 playerPosition;
 
     /// <summary>
     /// Initializes the PartyManager singleton, sets up the default party member, and registers for scene load events.
@@ -31,7 +30,7 @@ public class PartyManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
         AddMembertoPartyByName(defaultPartyMember.memberName);
-        SceneManager.sceneLoaded += OnSceneLoaded; // Escuchar el cambio de escenas
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
     }
 
@@ -42,10 +41,9 @@ public class PartyManager : MonoBehaviour
     /// <param name="mode">The scene load mode.</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Destruir el objeto si se carga el menú principal o la escena final
         if (scene.name == "MainMenu")
         {
-            Destroy(gameObject);  // Destruye este objeto si es la escena deseada
+            Destroy(gameObject);
         }
     }
 
@@ -54,7 +52,7 @@ public class PartyManager : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;  // Eliminar el evento cuando se destruya el objeto
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     /// <summary>
