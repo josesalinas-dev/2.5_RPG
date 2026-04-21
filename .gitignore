@@ -78,3 +78,10 @@ crashlytics-build.properties
 # Keep .gitignore and .gitattributes
 # Keep README.md for documentation
 
+# ====== INTERNAL DOCUMENTATION (Copilot & Code Review) ======
+# These files are for development analysis only, not for portfolio
+.instructions.md
+CodeReviewImprovements.md
+*Analysis.md
+*Review.md
+.copilot*
