@@ -164,7 +164,7 @@ public class EnemySimpleAI : MonoBehaviour
     {
         navMeshAgent.isStopped = true;
         enemyAnimator.SetTrigger("isDeath");
-        Destroy(gameObject, 1.7f);
+        Destroy(gameObject, 1.1f);
     }
 
     /// <summary>

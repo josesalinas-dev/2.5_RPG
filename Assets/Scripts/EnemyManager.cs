@@ -136,30 +136,28 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     private void RespawnEnemies()
     {
-        if (hasWonBattle && dgEnemyAttacker != null)
-        {
-            // for (int i = savedDGEnemiesData.Count - 1; i >= 0; i--)
-            // {
-            //     if (savedDGEnemiesData[i].position == dgEnemyAttacker.position)
-            //     {
-            //         savedDGEnemiesData.RemoveAt(i);
-            //     }
-            // }
-        }
+        Debug.Log("Respawning enemies...");
+        List<EnemyData> newSavedData = new List<EnemyData>();
 
         foreach (EnemyData enemyData in savedDGEnemiesData)
         {
             GameObject enemyPrefab = enemyDGPrefabs[enemyData.prefabIndex];
             GameObject respawnedEnemy = Instantiate(enemyPrefab, enemyData.position, enemyData.rotation);
-            if (hasWonBattle && dgEnemyAttacker != null)
+            Debug.Log($"Respawned enemy at position: {enemyData.position}, prefab index: {enemyData.prefabIndex}");
+            if (hasWonBattle && respawnedEnemy.transform.position == dgEnemyAttacker)
             {
-                if (respawnedEnemy.transform.position == dgEnemyAttacker)
-                {
-                    respawnedEnemy.GetComponent<EnemySimpleAI>().TriggerDeath();
-                }
+                respawnedEnemy.GetComponent<EnemySimpleAI>().TriggerDeath();
+                Debug.Log($"Defeated enemy at position: {enemyData.position}, prefab index: {enemyData.prefabIndex}");
             }
-            //savedDGEnemiesData.Add(new EnemyData(respawnedEnemy.transform.position, respawnedEnemy.transform.rotation, enemyData.prefabIndex));
+            else
+            {
+                newSavedData.Add(new EnemyData(respawnedEnemy.transform.position, respawnedEnemy.transform.rotation, enemyData.prefabIndex));
+            }
         }
+
+        savedDGEnemiesData = newSavedData;
+
+        hasWonBattle = false;
     }
 
     /// <summary>
