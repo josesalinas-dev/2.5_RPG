@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using RPGInterfaces;
 
 /// <summary>
 /// Singleton manager for handling audio settings and mixer control.
 /// Manages master, music, UI, and SFX volume levels with persistence via PlayerPrefs.
 /// Supports mute functionality and automatic volume restoration.
+/// Implements IAudioManager interface for dependency injection.
 /// </summary>
 /// <remarks>
 /// Responsabilidades: Gestión de volúmenes de audio, persistencia de configuración, control de mute.
 /// Patrón: Singleton.
 /// </remarks>
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, IAudioManager
 {
     /// <summary>
     /// Singleton instance of the AudioManager, accessible globally.

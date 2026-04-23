@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using RPGInterfaces;
 
 /// <summary>
 /// UI controller for audio settings, connecting sliders and toggles to AudioManager.
 /// Initializes UI elements with current values and sets up event listeners.
+/// Uses dependency injection via IAudioManager interface.
 /// </summary>
 /// <remarks>
 /// Responsabilidades: Vinculación de UI de audio con AudioManager, inicialización de controles.
@@ -20,22 +22,33 @@ public class AudioSettingController : MonoBehaviour
     [Header("Mute Toggle")]
     [SerializeField] private Toggle muteToggle;
 
+    [Header("Dependencies")]
+    [SerializeField] private AudioManager audioManagerImpl;
+    private IAudioManager audioManager;
+
     /// <summary>
     /// Initializes the audio UI controls by setting up sliders and mute toggle.
-    /// Checks for AudioManager instance and configures event listeners.
+    /// Checks for injected IAudioManager and configures event listeners.
     /// </summary>
     private void Start()
     {
-        if (AudioManager.Instance == null)
+        if (audioManagerImpl == null)
         {
-            Debug.LogError("AudioManager Instance no encontrado. Asegúrate de que AudioManager existe en la escena.");
-            return;
+            audioManagerImpl = FindFirstObjectByType<AudioManager>();
         }
 
-        InitializeSlider(masterSlider, AudioManager.Instance.SetMasterVolume, AudioManager.Instance.GetMasterVolume);
-        InitializeSlider(musicSlider, AudioManager.Instance.SetMusicVolume, AudioManager.Instance.GetMusicVolume);
-        InitializeSlider(uiSlider, AudioManager.Instance.SetUIVolume, AudioManager.Instance.GetUIVolume);
-        InitializeSlider(sfxSlider, AudioManager.Instance.SetSFXVolume, AudioManager.Instance.GetSFXVolume);
+        if (audioManagerImpl == null)
+        {
+            Debug.LogError("AudioManager no encontrado en la escena ni asignado en el Inspector.");
+            return;
+        }
+ 
+        audioManager = audioManagerImpl;
+
+        InitializeSlider(masterSlider, audioManager.SetMasterVolume, audioManager.GetMasterVolume);
+        InitializeSlider(musicSlider, audioManager.SetMusicVolume, audioManager.GetMusicVolume);
+        InitializeSlider(uiSlider, audioManager.SetUIVolume, audioManager.GetUIVolume);
+        InitializeSlider(sfxSlider, audioManager.SetSFXVolume, audioManager.GetSFXVolume);
 
         InitializeMuteToggle();
     }
@@ -67,8 +80,8 @@ public class AudioSettingController : MonoBehaviour
             return;
 
         muteToggle.onValueChanged.RemoveAllListeners();
-        bool isMuted = AudioManager.Instance.IsMuted();        
+        bool isMuted = audioManager.IsMuted();        
         muteToggle.SetIsOnWithoutNotify(!isMuted);
-        muteToggle.onValueChanged.AddListener(toggleIsOn => AudioManager.Instance.SetMuteState(!toggleIsOn));
+        muteToggle.onValueChanged.AddListener(toggleIsOn => audioManager.SetMuteState(!toggleIsOn));
     }
 }

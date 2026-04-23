@@ -108,6 +108,7 @@ public class EnemyManager : MonoBehaviour
         int numEnemies = Random.Range(1, maxNumEnemies + 1);
         for (int i = 0; i < numEnemies; i++)
         {
+            Debug.Log($"Generating enemy {i + 1}...");
             Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];
             int level = Random.Range(tempEncounter.LevelMin, tempEncounter.LevelMax + 1);
             GenerateEnemybyName(tempEncounter.Enemy.enemyName, level);
@@ -136,18 +137,15 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     private void RespawnEnemies()
     {
-        Debug.Log("Respawning enemies...");
         List<EnemyData> newSavedData = new List<EnemyData>();
 
         foreach (EnemyData enemyData in savedDGEnemiesData)
         {
             GameObject enemyPrefab = enemyDGPrefabs[enemyData.prefabIndex];
             GameObject respawnedEnemy = Instantiate(enemyPrefab, enemyData.position, enemyData.rotation);
-            Debug.Log($"Respawned enemy at position: {enemyData.position}, prefab index: {enemyData.prefabIndex}");
             if (hasWonBattle && respawnedEnemy.transform.position == dgEnemyAttacker)
             {
                 respawnedEnemy.GetComponent<EnemySimpleAI>().TriggerDeath();
-                Debug.Log($"Defeated enemy at position: {enemyData.position}, prefab index: {enemyData.prefabIndex}");
             }
             else
             {

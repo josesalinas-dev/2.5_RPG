@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using RPGInterfaces;
 
 /// <summary>
 /// Manages game-wide functionality including pause/resume, scene loading, and application quit.
 /// Uses the new InputSystem to detect pause input and controls Time.timeScale for pause mechanics.
+/// Implements IGameManager interface for dependency injection.
 /// </summary>
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IGameManager
 {
     private PlayerControls playerControls;
     [SerializeField] private GameObject pauseMenu;

@@ -244,7 +244,6 @@ public class BattleSystem : MonoBehaviour
     {
         List<Enemy> currentEnemies = new List<Enemy>();
         currentEnemies = enemyManager.GetCurrentEnemies();
-
         for (int i = 0; i < currentEnemies.Count; i++)
         {
             BattleEntities tempEntity = new BattleEntities();
