@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using RPGInterfaces;
 
 /// <summary>
 /// Controls player movement, animation, and battle transitions in the overworld.
@@ -15,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private PlayerControls playerControls;
     private Rigidbody rb;
     private Vector3 movement;
-    private PartyManager partyManager;
+    private IPartyManager partyManager;
 
     private const string IS_WALKING = "isWalking";
 
@@ -50,7 +51,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        partyManager = FindFirstObjectByType<PartyManager>();
+        partyManager = ServiceLocator.GetService<IPartyManager>();
         if (partyManager.GetPosition() != Vector3.zero)
         {
             transform.position = partyManager.GetPosition();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using RPGInterfaces;
 
 /// <summary>
 /// AI behavior system for dungeon enemies with state machine.
@@ -20,7 +21,7 @@ public class EnemySimpleAI : MonoBehaviour
     [SerializeField] private Animator enemyAnimator;
 
     private Transform player;
-    private EnemyManager enemyManager;
+    private IEnemyManager enemyManager;
     private NavMeshAgent navMeshAgent;
     public int prefabIndex; // Índice del prefab en la lista de prefabs
     private float timer = 0f;
@@ -29,7 +30,7 @@ public class EnemySimpleAI : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyManager = GameObject.FindFirstObjectByType<EnemyManager>();
+        enemyManager = ServiceLocator.GetService<IEnemyManager>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
         if (enemySprite == null)

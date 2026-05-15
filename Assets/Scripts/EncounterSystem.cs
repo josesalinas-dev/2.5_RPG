@@ -1,4 +1,5 @@
 using UnityEngine;
+using RPGInterfaces;
 
 /// <summary>
 /// Sets up enemy encounters in a scene based on serialized encounter data.
@@ -9,14 +10,14 @@ public class EncounterSystem : MonoBehaviour
     [SerializeField] private Encounter[] enemiesInScene;
     [SerializeField] private int maxNumEnemies;
 
-    private EnemyManager enemyManager;
+    private IEnemyManager enemyManager;
     
     /// <summary>
     /// Initializes the encounter system and generates random enemies based on the encounter data.
     /// </summary>
     void Start()
     {
-        enemyManager = GameObject.FindFirstObjectByType<EnemyManager>();
+        enemyManager = ServiceLocator.GetService<IEnemyManager>();
         enemyManager.GenerateEnemybyEncounter(enemiesInScene, maxNumEnemies);
     }
     

@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using RPGInterfaces;
 
 /// <summary>
 /// Singleton manager that handles party member data and persistence across scenes.
 /// Tracks current party composition, saves/loads character stats, and manages player position between scenes.
 /// Destroyed when returning to main menu.
 /// </summary>
-public class PartyManager : MonoBehaviour
+public class PartyManager : MonoBehaviour, IPartyManager
 {
     [SerializeField] private PartyMemberInfo[] allMembers;
     [SerializeField] private List<PartyMember> currentParty;
@@ -29,6 +30,7 @@ public class PartyManager : MonoBehaviour
         }
         instance = this;
         DontDestroyOnLoad(gameObject);
+        ServiceLocator.RegisterService<IPartyManager>(this);
         AddMembertoPartyByName(defaultPartyMember.memberName);
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -53,6 +55,10 @@ public class PartyManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (instance == this)
+        {
+            ServiceLocator.UnregisterService<IPartyManager>();
+        }
     }
 
     /// <summary>
@@ -138,7 +144,14 @@ public class PartyManager : MonoBehaviour
         return playerPosition;
     }
 
-
+    /// <summary>
+    /// Retrieves the default starting position for the player.
+    /// </summary>
+    /// <returns>The default start position.</returns>
+    public Vector3 GetPlayerStartPosition()
+    {
+        return playerStartPosition;
+    }
 }
 
 [System.Serializable]

@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using RPGInterfaces;
 
 /// <summary>
 /// Singleton manager that handles enemy generation, spawning, and persistence in dungeons.
 /// Saves enemy state when exiting battles and respawns defeated enemies based on encounter data.
 /// Manages enemy data persistence between scene loads.
 /// </summary>
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : MonoBehaviour, IEnemyManager
 {
     [SerializeField] private EnemyInfo[] allEnemies;
     [SerializeField] private List<Enemy> currentEnemies;
@@ -20,6 +21,7 @@ public class EnemyManager : MonoBehaviour
 
     private static EnemyManager instance;
     public bool hasWonBattle;
+    public bool HasWonBattle { get => hasWonBattle; set => hasWonBattle = value; }
 
     private const float LEVEL_MODIFIER = 0.25f;
     private const int MAX_NUM_ENEMIES_TO_SPAWN = 5;
@@ -30,7 +32,7 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
             return;
@@ -38,9 +40,9 @@ public class EnemyManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+        ServiceLocator.RegisterService<IEnemyManager>(this);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
-
     }
 
     /// <summary>
@@ -78,6 +80,10 @@ public class EnemyManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;  // Eliminar el evento cuando se destruya el objeto
+        if (instance == this)
+        {
+            ServiceLocator.UnregisterService<IEnemyManager>();
+        }
     }
 
     /// <summary>

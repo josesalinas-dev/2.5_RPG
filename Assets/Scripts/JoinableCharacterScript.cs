@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using RPGInterfaces;
 
 /// <summary>
 /// Makes an NPC recruitable as a party member.
@@ -35,7 +36,7 @@ public class JoinableCharacterScript : MonoBehaviour
     /// </summary>
     public void CheckIfJoined()
     {
-        List<PartyMember> currParty = GameObject.FindFirstObjectByType<PartyManager>().GetCurrentParty();
+        List<PartyMember> currParty = ServiceLocator.GetService<IPartyManager>().GetCurrentParty();
         
         for (int i = 0; i < currParty.Count; i++)
         {

@@ -21,9 +21,7 @@ public class AudioSettingController : MonoBehaviour
 
     [Header("Mute Toggle")]
     [SerializeField] private Toggle muteToggle;
-
-    [Header("Dependencies")]
-    [SerializeField] private AudioManager audioManagerImpl;
+    
     private IAudioManager audioManager;
 
     /// <summary>
@@ -31,19 +29,8 @@ public class AudioSettingController : MonoBehaviour
     /// Checks for injected IAudioManager and configures event listeners.
     /// </summary>
     private void Start()
-    {
-        if (audioManagerImpl == null)
-        {
-            audioManagerImpl = FindFirstObjectByType<AudioManager>();
-        }
-
-        if (audioManagerImpl == null)
-        {
-            Debug.LogError("AudioManager no encontrado en la escena ni asignado en el Inspector.");
-            return;
-        }
- 
-        audioManager = audioManagerImpl;
+    { 
+        audioManager = ServiceLocator.GetService<IAudioManager>();
 
         InitializeSlider(masterSlider, audioManager.SetMasterVolume, audioManager.GetMasterVolume);
         InitializeSlider(musicSlider, audioManager.SetMusicVolume, audioManager.GetMusicVolume);

@@ -15,10 +15,9 @@ using RPGInterfaces;
 public class AudioManager : MonoBehaviour, IAudioManager
 {
     /// <summary>
-    /// Singleton instance of the AudioManager, accessible globally.
-    /// Ensures only one AudioManager exists in the scene.
+    /// Singleton instance of the AudioManager, used internally for duplicate prevention.
     /// </summary>
-    public static AudioManager Instance { get; private set; }
+    private static AudioManager instance;
 
     [Header("Audio Mixer")]
     /// <summary>
@@ -47,16 +46,25 @@ public class AudioManager : MonoBehaviour, IAudioManager
     /// </summary>
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        Instance = this;
+        instance = this;
         DontDestroyOnLoad(gameObject);
+        ServiceLocator.RegisterService<IAudioManager>(this);
 
         LoadAudioState();
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            ServiceLocator.UnregisterService<IAudioManager>();
+        }
     }
 
     /// <summary>

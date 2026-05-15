@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using RPGInterfaces;
 
 /// <summary>
 /// Displays party member avatars and health bars in the HUD during overworld exploration.
@@ -8,7 +9,7 @@ using TMPro;
 /// </summary>
 public class OverworldVisuals : MonoBehaviour
 {
-    [SerializeField] private PartyManager partyManager;
+    private IPartyManager partyManager;
     [SerializeField] private GameObject[] heroPanelHUD;  
     [SerializeField] private Image[] heroPortraits;
     [SerializeField] private TextMeshProUGUI[] heroNames;
@@ -21,7 +22,7 @@ public class OverworldVisuals : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        partyManager = GameObject.FindFirstObjectByType<PartyManager>();
+        partyManager = ServiceLocator.GetService<IPartyManager>();
         UpdateOverworldVisuals();
     }
 
@@ -32,6 +33,12 @@ public class OverworldVisuals : MonoBehaviour
     /// </summary>
     public void UpdateOverworldVisuals()
     {
+        if (partyManager == null)
+        {
+            partyManager = ServiceLocator.GetService<IPartyManager>();
+            if (partyManager == null) return;
+        }
+
         int partyCount = partyManager.GetCurrentParty().Count;
         for (int i = 0; i < heroPanelHUD.Length; i++)
         {

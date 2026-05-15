@@ -15,11 +15,17 @@ public class GameManager : MonoBehaviour, IGameManager
     private bool isPaused = false;
 
     /// <summary>
-    /// Initializes the player controls input system on awake.
+    /// Initializes the player controls input system on awake and registers service.
     /// </summary>
     private void Awake()
     {
         playerControls = new PlayerControls();
+        ServiceLocator.RegisterService<IGameManager>(this);
+    }
+
+    private void OnDestroy()
+    {
+        ServiceLocator.UnregisterService<IGameManager>();
     }
 
     /// <summary>

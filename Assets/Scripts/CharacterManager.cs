@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using RPGInterfaces;
 
 /// <summary>
 /// Manages NPC recruitment and party member visuals in the overworld.
@@ -11,7 +12,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private GameObject joinPopUp;
     [SerializeField] private GameObject AvatarsHUD;
     [SerializeField] private TextMeshProUGUI joinPopUpText;
-    private PartyManager partyManager;
+    private IPartyManager partyManager;
 
     private bool infrontOfPartyMember;
     private GameObject joinableMember;
@@ -35,7 +36,7 @@ public class CharacterManager : MonoBehaviour
     private void Start()
     {
         playerControls.Player.Interact.performed += _ => Interact();
-        partyManager = GameObject.FindFirstObjectByType<PartyManager>();
+        partyManager = ServiceLocator.GetService<IPartyManager>();
         if (partyManager.GetPosition() != Vector3.zero)
         {
             transform.position = partyManager.GetPosition();
@@ -85,7 +86,7 @@ public class CharacterManager : MonoBehaviour
     /// <param name="partyMember">The PartyMemberInfo of the character to join the party.</param>
     private void JoinMember(PartyMemberInfo partyMember)
     {
-        GameObject.FindFirstObjectByType<PartyManager>().AddMembertoPartyByName(partyMember.memberName);
+        partyManager.AddMembertoPartyByName(partyMember.memberName);
         joinableMember.GetComponent<JoinableCharacterScript>().CheckIfJoined();
         joinPopUp.SetActive(true);
         joinPopUpText.text = partyMember.memberName + PARTY_JOINED_MESSAGE;
@@ -104,7 +105,7 @@ public class CharacterManager : MonoBehaviour
             Destroy(overWorldCharacters[i]);
         }
         overWorldCharacters.Clear();
-        List<PartyMember> currentParty = GameObject.FindFirstObjectByType<PartyManager>().GetCurrentParty();
+        List<PartyMember> currentParty = partyManager.GetCurrentParty();
         if (AvatarsHUD != null)
         {
             var overworldVisuals = AvatarsHUD.GetComponent<OverworldVisuals>();
