@@ -7,10 +7,6 @@ using RPGInterfaces;
 /// Initializes UI elements with current values and sets up event listeners.
 /// Uses dependency injection via IAudioManager interface.
 /// </summary>
-/// <remarks>
-/// Responsabilidades: Vinculación de UI de audio con AudioManager, inicialización de controles.
-/// Patrón: Ninguno específico.
-/// </remarks>
 public class AudioSettingController : MonoBehaviour
 {
     [Header("Volume Sliders")]

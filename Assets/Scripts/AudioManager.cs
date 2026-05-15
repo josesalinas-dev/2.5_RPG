@@ -8,22 +8,12 @@ using RPGInterfaces;
 /// Supports mute functionality and automatic volume restoration.
 /// Implements IAudioManager interface for dependency injection.
 /// </summary>
-/// <remarks>
-/// Responsabilidades: Gestión de volúmenes de audio, persistencia de configuración, control de mute.
-/// Patrón: Singleton.
-/// </remarks>
 public class AudioManager : MonoBehaviour, IAudioManager
 {
-    /// <summary>
     /// Singleton instance of the AudioManager, used internally for duplicate prevention.
-    /// </summary>
     private static AudioManager instance;
 
     [Header("Audio Mixer")]
-    /// <summary>
-    /// Reference to the Unity AudioMixer for controlling volume levels.
-    /// Exposed parameters: MasterVolume, MusicVolume, UIVolume, SFXVolume.
-    /// </summary>
     [SerializeField] private AudioMixer audioMixer;
 
     private const string MASTER_VOLUME_KEY = "MasterVolume";

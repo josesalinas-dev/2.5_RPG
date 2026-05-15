@@ -29,11 +29,48 @@ public class GameManager : MonoBehaviour, IGameManager
     }
 
     /// <summary>
-    /// Enables the player input controls when the script is enabled.
+    /// Enables the player input controls and subscribes to game events when the script is enabled.
     /// </summary>
     private void OnEnable()
     {
         playerControls.Enable();
+        GameEvents.OnBattleTriggered += HandleBattleTriggered;
+        GameEvents.OnBattleResolved += HandleBattleResolved;
+        GameEvents.OnGameWon += HandleGameWon;
+    }
+
+    /// <summary>
+    /// Disables the player input controls and unsubscribes from game events when the script is disabled.
+    /// </summary>
+    private void OnDisable()
+    {
+        playerControls.Disable();
+        GameEvents.OnBattleTriggered -= HandleBattleTriggered;
+        GameEvents.OnBattleResolved -= HandleBattleResolved;
+        GameEvents.OnGameWon -= HandleGameWon;
+    }
+
+    private void HandleBattleTriggered()
+    {
+        LoadScene("BattleScene");
+    }
+
+    private void HandleBattleResolved(BattleResult result)
+    {
+        if (result == BattleResult.Won || result == BattleResult.Run)
+        {
+            LoadScene("RedDungeonLVL");
+        }
+        else if (result == BattleResult.Lost)
+        {
+            // The BattleSystem UI currently handles the GameOver display.
+            // In the future, we could load a GameOver scene here.
+        }
+    }
+
+    private void HandleGameWon()
+    {
+        LoadScene("WinScene");
     }
 
     /// <summary>

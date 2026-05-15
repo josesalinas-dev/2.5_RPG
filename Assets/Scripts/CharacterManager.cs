@@ -100,9 +100,11 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     private void SpawnOverworldMembers()
     {
+        var pooler = ServiceLocator.GetService<IObjectPooler>();
         for (int i = 0; i < overWorldCharacters.Count; i++)
         {
-            Destroy(overWorldCharacters[i]);
+            if (pooler != null) pooler.ReturnToPool(overWorldCharacters[i]);
+            else Destroy(overWorldCharacters[i]);
         }
         overWorldCharacters.Clear();
         List<PartyMember> currentParty = partyManager.GetCurrentParty();
@@ -119,9 +121,15 @@ public class CharacterManager : MonoBehaviour
             if (i == 0)
             {
                 GameObject player = gameObject;
-                GameObject playerVisual = Instantiate(
-                    currentParty[i].memberOverworldVisualPrefab,
-                    player.transform);
+                GameObject playerVisual;
+                if (pooler != null)
+                {
+                    playerVisual = pooler.SpawnFromPool(currentParty[i].memberOverworldVisualPrefab, player.transform.position, Quaternion.identity, player.transform);
+                }
+                else
+                {
+                    playerVisual = Instantiate(currentParty[i].memberOverworldVisualPrefab, player.transform);
+                }
                 playerVisual.transform.localPosition = Vector3.zero;
                 playerVisual.transform.SetParent(player.transform);
                 player.GetComponent<PlayerController>().SetOverworldVisuals(playerVisual.GetComponent<Animator>(), playerVisual.GetComponent<SpriteRenderer>());
@@ -132,7 +140,15 @@ public class CharacterManager : MonoBehaviour
             {
                 Vector3 positionToSpawn = transform.position;
                 positionToSpawn.x -= i;
-                GameObject tempFollower = Instantiate(currentParty[i].memberOverworldVisualPrefab, positionToSpawn, Quaternion.identity);
+                GameObject tempFollower;
+                if (pooler != null)
+                {
+                    tempFollower = pooler.SpawnFromPool(currentParty[i].memberOverworldVisualPrefab, positionToSpawn, Quaternion.identity);
+                }
+                else
+                {
+                    tempFollower = Instantiate(currentParty[i].memberOverworldVisualPrefab, positionToSpawn, Quaternion.identity);
+                }
                 tempFollower.GetComponent<MemberFollowAI>().SetFollowDistance(i + 1.5f);
                 overWorldCharacters.Add(tempFollower);
             }

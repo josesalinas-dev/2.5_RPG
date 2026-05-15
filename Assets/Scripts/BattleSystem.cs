@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using RPGInterfaces;
 
 /// <summary>
@@ -36,7 +35,6 @@ public class BattleSystem : MonoBehaviour
     private const string LOST_MESSAGE = "YOUR PARTY HAS BEEN DEFEATED!!!";
     private const string SUCCESSFULLY_RAN_AWAY_MESSAGE = "YOU HAVE RUN AWAY";
     private const string FAIL_RAN_AWAY_MESSAGE = "PARTY FAIL TO RUN";
-    private const string SCENE_NAME = "RedDungeonLVL";
     private const int TURN_DURATION = 2;
     private const int RUN_CHANCE = 50;
 
@@ -89,7 +87,16 @@ public class BattleSystem : MonoBehaviour
             BattleEntities tempEntity = new BattleEntities();
             tempEntity.SetEntityValues(currentParty[i].memberName, currentParty[i].currentHealth, currentParty[i].maxHealth, currentParty[i].strength, currentParty[i].initiative, currentParty[i].level, true);
 
-            BattleVisuals tempBattleVisual = Instantiate(currentParty[i].memberBattleVisualPrefab, partySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            var pooler = ServiceLocator.GetService<IObjectPooler>();
+            BattleVisuals tempBattleVisual;
+            if (pooler != null)
+            {
+                tempBattleVisual = pooler.SpawnFromPool(currentParty[i].memberBattleVisualPrefab, partySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            }
+            else
+            {
+                tempBattleVisual = Instantiate(currentParty[i].memberBattleVisualPrefab, partySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            }
             tempBattleVisual.SetStartingValues(currentParty[i].currentHealth, currentParty[i].maxHealth, currentParty[i].level);
             tempEntity.BattleVisuals = tempBattleVisual;
 
@@ -109,7 +116,16 @@ public class BattleSystem : MonoBehaviour
             BattleEntities tempEntity = new BattleEntities();
             tempEntity.SetEntityValues(currentEnemies[i].enemyName, currentEnemies[i].currentHealth, currentEnemies[i].maxHealth, currentEnemies[i].strength, currentEnemies[i].initiative, currentEnemies[i].level, false);
 
-            BattleVisuals tempBattleVisual = Instantiate(currentEnemies[i].enemyBattleVisuals, enemySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            var pooler = ServiceLocator.GetService<IObjectPooler>();
+            BattleVisuals tempBattleVisual;
+            if (pooler != null)
+            {
+                tempBattleVisual = pooler.SpawnFromPool(currentEnemies[i].enemyBattleVisuals, enemySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            }
+            else
+            {
+                tempBattleVisual = Instantiate(currentEnemies[i].enemyBattleVisuals, enemySpawnPoints[i].position, Quaternion.identity).GetComponent<BattleVisuals>();
+            }
             tempBattleVisual.SetStartingValues(currentEnemies[i].maxHealth, currentEnemies[i].maxHealth, currentEnemies[i].level);
             tempEntity.BattleVisuals = tempBattleVisual;
 
@@ -239,7 +255,7 @@ public class BattleSystem : MonoBehaviour
                     State = BattleState.Won;
                     enemyManager.HasWonBattle = true;
                     uiManager.UpdateBattleInfo(WIN_MESSAGE);
-                    SceneManager.LoadScene(SCENE_NAME);
+                    GameEvents.ResolveBattle(BattleResult.Won);
                 }
             }
         }
@@ -264,6 +280,7 @@ public class BattleSystem : MonoBehaviour
                     uiManager.UpdateBattleInfo(LOST_MESSAGE);
                     yield return new WaitForSeconds(TURN_DURATION);
                     uiManager.ShowGameOver();
+                    GameEvents.ResolveBattle(BattleResult.Lost);
                 }
             }
         }
@@ -288,7 +305,7 @@ public class BattleSystem : MonoBehaviour
                 State = BattleState.Run;
                 allBattlers.Clear();
                 yield return new WaitForSeconds(TURN_DURATION);
-                SceneManager.LoadScene(SCENE_NAME);
+                GameEvents.ResolveBattle(BattleResult.Run);
                 yield break;
             }
             else

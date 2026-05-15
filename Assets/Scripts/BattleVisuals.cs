@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using RPGInterfaces;
 
 /// <summary>
 /// Handles visual feedback and animations for battle characters.
@@ -59,9 +60,23 @@ public class BattleVisuals : MonoBehaviour
         if (currentHealth <= 0)
         {
             PlayDeathAnimation();
-            Destroy(gameObject, 5f);
+            StartCoroutine(ReturnToPoolCoroutine(5f));
         }
         UpdateHealthBar();
+    }
+
+    private System.Collections.IEnumerator ReturnToPoolCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        var pooler = ServiceLocator.GetService<RPGInterfaces.IObjectPooler>();
+        if (pooler != null)
+        {
+            pooler.ReturnToPool(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     /// <summary>

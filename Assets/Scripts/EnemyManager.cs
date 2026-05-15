@@ -114,7 +114,6 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
         int numEnemies = Random.Range(1, maxNumEnemies + 1);
         for (int i = 0; i < numEnemies; i++)
         {
-            Debug.Log($"Generating enemy {i + 1}...");
             Encounter tempEncounter = encounters[Random.Range(0, encounters.Length)];
             int level = Random.Range(tempEncounter.LevelMin, tempEncounter.LevelMax + 1);
             GenerateEnemybyName(tempEncounter.Enemy.enemyName, level);

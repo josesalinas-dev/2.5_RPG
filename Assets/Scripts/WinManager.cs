@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Detects when the player reaches the goal and transitions to the win scene.
@@ -16,7 +15,7 @@ public class WinManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene("WinScene");
+            GameEvents.WinGame();
         }
     }
 }

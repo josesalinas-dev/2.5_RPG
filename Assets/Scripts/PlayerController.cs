@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using RPGInterfaces;
 
 /// <summary>
@@ -97,7 +96,7 @@ public class PlayerController : MonoBehaviour
     public void ProcessHit()
     {
         partyManager.SetPosition(transform.position);
-        SceneManager.LoadScene("BattleScene");
+        GameEvents.TriggerBattle();
     }
 
     /// <summary>

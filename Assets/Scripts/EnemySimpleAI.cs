@@ -103,6 +103,9 @@ public class EnemySimpleAI : MonoBehaviour
         FlipCharacter();
     }
 
+    private float pathUpdateTimer = 0f;
+    private const float PATH_UPDATE_INTERVAL = 0.25f;
+
     /// <summary>
     /// Chase state: The enemy moves toward the player at chase speed.
     /// Transitions to Attack if the player is within attack range, or back to Idle if the player escapes.
@@ -110,7 +113,13 @@ public class EnemySimpleAI : MonoBehaviour
     private void Chase()
     {
         navMeshAgent.speed = chaseSpeed;
-        navMeshAgent.SetDestination(player.position);
+        
+        pathUpdateTimer += Time.deltaTime;
+        if (pathUpdateTimer >= PATH_UPDATE_INTERVAL)
+        {
+            navMeshAgent.SetDestination(player.position);
+            pathUpdateTimer = 0f;
+        }
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer > chaseRange)

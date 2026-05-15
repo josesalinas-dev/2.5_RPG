@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /// <summary>
 /// Static utility class responsible for calculating and applying combat interactions.
 /// </summary>

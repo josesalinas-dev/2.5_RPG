@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /// <summary>
 /// Internal data class for BattleEntities representing targets and actions during combat.
 /// </summary>
